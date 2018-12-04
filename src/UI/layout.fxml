@@ -1,0 +1,9 @@
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<GridPane xmlns:fx="http://javafx.com/fxml" alignment="CENTER" hgap="20" vgap="10" fx:controller="UI.Controller" stylesheets="@ui.css">
+    <TextArea fx:id="commandHistory" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="7" editable="false"/>
+    <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Command:" GridPane.columnSpan="1"/>
+    <TextField fx:id="commandInput" GridPane.rowIndex="1" GridPane.columnIndex="2" promptText="Enter Command..." GridPane.columnSpan="5" onAction="#EnterPressed"/>
+</GridPane>
