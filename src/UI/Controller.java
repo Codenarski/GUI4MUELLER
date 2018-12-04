@@ -1,42 +1,93 @@
 package UI;
 
-import javafx.application.Platform;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
+
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 
-public class Controller implements Initializable {
+
+public class Controller extends Application implements Initializable {
 
     @FXML private TextField commandInput;
     @FXML private TextArea commandHistory;
 
-    public void close(ActionEvent actionEvent) {
-        Platform.exit();
+    private LinkedList<String> commandList = new LinkedList<>();
+
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("layout.fxml"));
+        primaryStage.setTitle("Airport");
+        Scene scene = new Scene(root, 700, 275);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> handle(event));
     }
 
-    public void ParseString(ActionEvent actionEvent) {
+    private void handle(KeyEvent event) {
 
-    }
-
-    public void EnterPressed(ActionEvent actionEvent) {
-
-        if (commandHistory.getText().isEmpty()) {
-            commandHistory.appendText(commandInput.getText());
-        } else {
-            commandHistory.appendText("\n" + commandInput.getText());
+        if(!commandList.isEmpty()) {
+            if (event.getCode() == javafx.scene.input.KeyCode.UP) {
+                commandInput.setText(commandList.getFirst());
+                commandList.addLast(commandList.getFirst());
+                commandList.removeFirst();
+            }
         }
+
+        System.out.println("Pressed: " + event.getCode());
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    private boolean parseString(String input) {
+
+        //TODO: Write Parser
+        return true;
+    }
+
+    public void enterPressed(ActionEvent actionEvent) {
+        String input = commandInput.getText();
+
+        if(parseString(input)) {
+            addCommandToHistory(input);
+            commandList.add(input);
+            System.out.println(commandList.getFirst());
+            commandInput.setText("");
+        }
+        else {
+            addCommandToHistory("input is no command");
+        }
+
 
 
         //Todo: Inhalt des Textfeldes löschen, in eine Liste oder einen Stack speichern damit man mit Hoch runter alte commands zurückholen kann
 
 
+    }
+
+    private void addCommandToHistory(String input) {
+        if (commandHistory.getText().isEmpty()) {
+            commandHistory.appendText(input);
+        } else {
+            commandHistory.appendText("\n" + input);
+        }
     }
 
     public void initialize(URL location, ResourceBundle resources) {
