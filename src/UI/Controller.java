@@ -7,7 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -85,6 +87,16 @@ public class Controller implements Initializable {
     }
 
     public void closePressed(ActionEvent actionEvent) {
+
+        try {
+            if (isNotepadRunning())
+            {
+                Runtime.getRuntime().exec("taskkill /F /IM " + "notepad++.exe");
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         Platform.exit();
     }
 
@@ -96,5 +108,26 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
+    }
+    //TODO: MUELLER FRAGEN OB DAS AUCH SO AKTIVIERT WERDEN DARF ODER NICHT
+    public void enterPressed(ActionEvent actionEvent) {
+        executePressed(actionEvent);
+    }
+
+    private boolean isNotepadRunning() throws Exception {
+        Process listTasksProcess = Runtime.getRuntime().exec("tasklist");
+        BufferedReader tasksListReader = new BufferedReader(new InputStreamReader(listTasksProcess.getInputStream()));
+
+        String tasksLine;
+
+        while ((tasksLine = tasksListReader.readLine()) != null)
+        {
+            if (tasksLine.contains("notepad++.exe"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
