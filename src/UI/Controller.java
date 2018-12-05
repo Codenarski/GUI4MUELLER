@@ -1,7 +1,6 @@
 package UI;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
@@ -11,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -20,21 +18,21 @@ public class Controller implements Initializable {
 
     @FXML private TextField commandInput;
     @FXML private TextArea commandHistory;
-          private LinkedList<String> commandList = new LinkedList<>();
 
     private boolean parseString(String input) {
+
+
 
         //TODO: Write Parser
         return true;
     }
 
-    public void executePressed(ActionEvent event) {
+    public void executePressed() {
 
         String input = commandInput.getText();
 
         if (parseString(input)) {
             addCommandToHistory(input);
-            commandList.add(input);
             commandInput.setText("");
         } else {
             addCommandToHistory("input is no command");
@@ -86,7 +84,7 @@ public class Controller implements Initializable {
         TextFields.bindAutoCompletion(commandInput, commands);
     }
 
-    public void closePressed(ActionEvent actionEvent) {
+    public void closePressed() {
 
         try {
             if (isNotepadRunning())
@@ -100,7 +98,7 @@ public class Controller implements Initializable {
         Platform.exit();
     }
 
-    public void logfilePressed(ActionEvent actionEvent){
+    public void logfilePressed(){
         try {
             Runtime.getRuntime().exec("C:\\Program Files\\Notepad++\\notepad++.exe C:\\Users\\janbe\\Documents\\ajax.html");
         }
@@ -110,10 +108,11 @@ public class Controller implements Initializable {
 
     }
     //TODO: MUELLER FRAGEN OB DAS AUCH SO AKTIVIERT WERDEN DARF ODER NICHT
-    public void enterPressed(ActionEvent actionEvent) {
-        executePressed(actionEvent);
+    public void enterPressed() {
+        executePressed();
     }
 
+    //TODO: MUELLER FRAGEN OB DAS WIRKLICH WIEDER GESCHLOSSEN WERDEN MUSS
     private boolean isNotepadRunning() throws Exception {
         Process listTasksProcess = Runtime.getRuntime().exec("tasklist");
         BufferedReader tasksListReader = new BufferedReader(new InputStreamReader(listTasksProcess.getInputStream()));
