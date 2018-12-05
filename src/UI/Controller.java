@@ -1,60 +1,24 @@
 package UI;
 
-import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-
-import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 
-
-public class Controller extends Application implements Initializable {
+public class Controller implements Initializable {
 
     @FXML private TextField commandInput;
     @FXML private TextArea commandHistory;
-
-    private LinkedList<String> commandList = new LinkedList<>();
-
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("layout.fxml"));
-        primaryStage.setTitle("Airport");
-        Scene scene = new Scene(root, 700, 275);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> handle(event));
-    }
-
-    private void handle(KeyEvent event) {
-
-        if(!commandList.isEmpty()) {
-            if (event.getCode() == javafx.scene.input.KeyCode.UP) {
-                commandInput.setText(commandList.getFirst());
-                commandList.addLast(commandList.getFirst());
-                commandList.removeFirst();
-            }
-        }
-
-        System.out.println("Pressed: " + event.getCode());
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+          private LinkedList<String> commandList = new LinkedList<>();
 
     private boolean parseString(String input) {
 
@@ -62,19 +26,17 @@ public class Controller extends Application implements Initializable {
         return true;
     }
 
-    public void enterPressed(ActionEvent actionEvent) {
+    public void executePressed(ActionEvent event) {
+
         String input = commandInput.getText();
 
-        if(parseString(input)) {
+        if (parseString(input)) {
             addCommandToHistory(input);
             commandList.add(input);
-            System.out.println(commandList.getFirst());
             commandInput.setText("");
-        }
-        else {
+        } else {
             addCommandToHistory("input is no command");
         }
-
 
 
         //Todo: Inhalt des Textfeldes löschen, in eine Liste oder einen Stack speichern damit man mit Hoch runter alte commands zurückholen kann
@@ -119,6 +81,20 @@ public class Controller extends Application implements Initializable {
                 "execute airplane pfd-show"
 
         };
-        TextFields.bindAutoCompletion(commandInput,commands);
+        TextFields.bindAutoCompletion(commandInput, commands);
+    }
+
+    public void closePressed(ActionEvent actionEvent) {
+        Platform.exit();
+    }
+
+    public void logfilePressed(ActionEvent actionEvent){
+        try {
+            Runtime.getRuntime().exec("C:\\Program Files\\Notepad++\\notepad++.exe C:\\Users\\janbe\\Documents\\ajax.html");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
