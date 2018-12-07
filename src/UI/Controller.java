@@ -5,13 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ResourceBundle;
-import org.controlsfx.control.textfield.TextFields;
+
 
 
 public class Controller implements Initializable {
@@ -37,19 +38,10 @@ public class Controller implements Initializable {
         } else {
             addCommandToHistory("input is no command");
         }
-
-
-        //Todo: Inhalt des Textfeldes löschen, in eine Liste oder einen Stack speichern damit man mit Hoch runter alte commands zurückholen kann
-
-
     }
 
     private void addCommandToHistory(String input) {
-        if (commandHistory.getText().isEmpty()) {
-            commandHistory.appendText(input);
-        } else {
-            commandHistory.appendText("\n" + input);
-        }
+        commandHistory.appendText(commandHistory.getText().isEmpty() ? input : "\n" + input);
     }
 
     public void initialize(URL location, ResourceBundle resources) {
