@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -20,12 +21,180 @@ public class Controller implements Initializable {
     @FXML private TextField commandInput;
     @FXML private TextArea commandHistory;
 
+    private boolean isInteger(String input) {
+       return input.matches("^\\d+$");
+    }
+
     private boolean parseString(String input) {
 
+        String[] splittedString = input.split(" ");
+        if (!Objects.equals(splittedString[0], "execute")) return false;
 
+        if (Objects.equals(splittedString[1], "airplane")) {
+            switch(splittedString[2]) {
+                case "build":
+                    if (splittedString.length == 4 && (Objects.equals(splittedString[3], "A380") || Objects.equals(splittedString[3], "A350"))) {
+                        String airplaneType = splittedString[3];
+                        return true;
+                    }
+                    break;
+                case "climbing":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "left-turn":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "pfd-show":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "startup":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "take-off-normal":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "take-off-engine-fire":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "taxi":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                default:
+                    return false;
+            }
+        }
 
-        //TODO: Write Parser
-        return true;
+        if (Objects.equals(splittedString[1], "airport")) {
+            switch(splittedString[2]) {
+                case "aircargo":
+                    if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
+                        int id = Integer.parseInt(splittedString[5]);
+                        return true;
+                    }
+                    break;
+                case "assign":
+                    if (Objects.equals(splittedString[3], "airplane") && Objects.equals(splittedString[4], "to") && Objects.equals(splittedString[5], "gate") && isInteger(splittedString[6]) && splittedString.length == 7) {
+                        int id = Integer.parseInt(splittedString[6]);
+                        return true;
+                    }
+                    else if (Objects.equals(splittedString[3], "airplane") && Objects.equals(splittedString[4], "to") && Objects.equals(splittedString[5], "gate") && Objects.equals(splittedString[6], "random") && splittedString.length == 7) {
+                        return true;
+                    }
+                    break;
+                case "baggagse-sorting-unit":
+                    //for gate <id>
+                    if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
+                        int id = Integer.parseInt(splittedString[5]);
+                        return true;
+                    }
+                    break;
+                case "boarding-control":
+                    //for gate <id>
+                    if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
+                        int id = Integer.parseInt(splittedString[5]);
+                        return true;
+                    }
+                    break;
+                case "build":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "bulky":
+                    //baggage
+                    if (Objects.equals(splittedString[3], "baggage") && splittedString.length == 4) {
+                        return true;
+                    }
+                    break;
+                case "check-in":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "customs":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "groundops-logging":
+                    if (splittedString.length == 3) {
+                        return true;
+                    }
+                    break;
+                case "passport":
+                    //control
+                    if (Objects.equals(splittedString[3], "control") && splittedString.length == 4) {
+                        return true;
+                    }
+                    break;
+                case "pushback":
+                    //for gate <id>
+                    if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
+                        int id = Integer.parseInt(splittedString[5]);
+                        return true;
+                    }
+                    break;
+                case "security":
+                    //check
+                    if (Objects.equals(splittedString[3], "check") && splittedString.length == 4) {
+                        return true;
+                    }
+                    break;
+                case "service":
+                    //waster water for gate <id>
+                    if (Objects.equals(splittedString[3], "waster") && Objects.equals(splittedString[4], "water") &&Objects.equals(splittedString[5], "for") && Objects.equals(splittedString[6], "gate") && isInteger(splittedString[7]) && splittedString.length == 8) {
+                        int id = Integer.parseInt(splittedString[7]);
+                        return true;
+                    }
+                    break;
+                case "service-base":
+                    //for gate <id>
+                    if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
+                        int id = Integer.parseInt(splittedString[5]);
+                        return true;
+                    }
+                    break;
+                case "service-fresh-water":
+                    //for gate <id>
+                    if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
+                        int id = Integer.parseInt(splittedString[5]);
+                        return true;
+                    }
+                    break;
+                case "service-nitrogen-oxygen":
+                    //for gate <id>
+                    if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
+                        int id = Integer.parseInt(splittedString[5]);
+                        return true;
+                    }
+                    break;
+                case "sky-tanking":
+                    //for gate <id>
+                    if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
+                        int id = Integer.parseInt(splittedString[5]);
+                        return true;
+                    }
+                    break;
+                default:
+                    return false;
+            }
+        }
+
+        return false;
     }
 
     public void executePressed() {
