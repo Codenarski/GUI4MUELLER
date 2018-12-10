@@ -244,7 +244,7 @@ public class Controller implements Initializable {
                 "execute airplane pfd-show"
 
         };
-        TextFields.bindAutoCompletion(commandInput, commands);
+        TextFields.bindAutoCompletion(commandInput, commands).setPrefWidth(800);
     }
 
     public void closePressed() {
