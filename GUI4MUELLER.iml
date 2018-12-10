@@ -10,7 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="lib" level="project" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/src/UI/controlsfx-9.0.0.jar!/" />
@@ -19,6 +19,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="controlsfx-9.0.0" level="project" />
   </component>
 </module>

@@ -15,23 +15,26 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-
 public class Controller implements Initializable {
 
-    @FXML private TextField commandInput;
-    @FXML private TextArea commandHistory;
+    @FXML
+    private TextField commandInput;
+    @FXML
+    private TextArea commandHistory;
 
     private boolean isInteger(String input) {
-       return input.matches("^\\d+$");
+        return input.matches("^\\d+$");
     }
 
     private boolean parseString(String input) {
 
         String[] splittedString = input.split(" ");
-        if (!Objects.equals(splittedString[0], "execute")) return false;
+        if (!Objects.equals(splittedString[0], "execute")) {
+            return false;
+        }
 
         if (Objects.equals(splittedString[1], "airplane")) {
-            switch(splittedString[2]) {
+            switch (splittedString[2]) {
                 case "build":
                     if (splittedString.length == 4 && (Objects.equals(splittedString[3], "A380") || Objects.equals(splittedString[3], "A350"))) {
                         String airplaneType = splittedString[3];
@@ -79,7 +82,7 @@ public class Controller implements Initializable {
         }
 
         if (Objects.equals(splittedString[1], "airport")) {
-            switch(splittedString[2]) {
+            switch (splittedString[2]) {
                 case "aircargo":
                     if (Objects.equals(splittedString[3], "for") && Objects.equals(splittedString[4], "gate") && isInteger(splittedString[5]) && splittedString.length == 6) {
                         int id = Integer.parseInt(splittedString[5]);
@@ -90,8 +93,7 @@ public class Controller implements Initializable {
                     if (Objects.equals(splittedString[3], "airplane") && Objects.equals(splittedString[4], "to") && Objects.equals(splittedString[5], "gate") && isInteger(splittedString[6]) && splittedString.length == 7) {
                         int id = Integer.parseInt(splittedString[6]);
                         return true;
-                    }
-                    else if (Objects.equals(splittedString[3], "airplane") && Objects.equals(splittedString[4], "to") && Objects.equals(splittedString[5], "gate") && Objects.equals(splittedString[6], "random") && splittedString.length == 7) {
+                    } else if (Objects.equals(splittedString[3], "airplane") && Objects.equals(splittedString[4], "to") && Objects.equals(splittedString[5], "gate") && Objects.equals(splittedString[6], "random") && splittedString.length == 7) {
                         return true;
                     }
                     break;
@@ -156,7 +158,7 @@ public class Controller implements Initializable {
                     break;
                 case "service":
                     //waster water for gate <id>
-                    if (Objects.equals(splittedString[3], "waster") && Objects.equals(splittedString[4], "water") &&Objects.equals(splittedString[5], "for") && Objects.equals(splittedString[6], "gate") && isInteger(splittedString[7]) && splittedString.length == 8) {
+                    if (Objects.equals(splittedString[3], "waster") && Objects.equals(splittedString[4], "water") && Objects.equals(splittedString[5], "for") && Objects.equals(splittedString[6], "gate") && isInteger(splittedString[7]) && splittedString.length == 8) {
                         int id = Integer.parseInt(splittedString[7]);
                         return true;
                     }
@@ -248,26 +250,24 @@ public class Controller implements Initializable {
     public void closePressed() {
 
         try {
-            if (isNotepadRunning())
-            {
+            if (isNotepadRunning()) {
                 Runtime.getRuntime().exec("taskkill /F /IM " + "notepad++.exe");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Platform.exit();
     }
 
-    public void logfilePressed(){
+    public void logfilePressed() {
         try {
-            Runtime.getRuntime().exec("C:\\Program Files\\Notepad++\\notepad++.exe C:\\Users\\janbe\\Documents\\ajax.html");
-        }
-        catch (IOException e) {
+            Runtime.getRuntime().exec("C:\\Program Files\\Notepad++\\notepad++.exe -ro C:\\Users\\janbe\\Documents\\ajax.html");
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
+
     //TODO: MUELLER FRAGEN OB DAS AUCH SO AKTIVIERT WERDEN DARF ODER NICHT
     public void enterPressed() {
         executePressed();
@@ -280,10 +280,8 @@ public class Controller implements Initializable {
 
         String tasksLine;
 
-        while ((tasksLine = tasksListReader.readLine()) != null)
-        {
-            if (tasksLine.contains("notepad++.exe"))
-            {
+        while ((tasksLine = tasksListReader.readLine()) != null) {
+            if (tasksLine.contains("notepad++.exe")) {
                 return true;
             }
         }
